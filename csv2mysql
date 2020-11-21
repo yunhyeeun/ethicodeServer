@@ -1,0 +1,21 @@
+CREATE TABLE news (
+    companyname VARCHAR(20),
+    title VARCHAR(100),
+    date VARCHAR(40),
+    description VARCHAR(200),
+    link VARCHAR(200),
+    PRIMARY KEY(companyname)
+);
+
+LOAD DATA LOCAL INFILE '/home/ubuntu/sample_result.csv'
+INTO TABLE news
+FIELDS TERMINATED BY ','
+ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+IGNORE 1 ROWS
+(@keyword, @title, @description, @originallink, @link, @pubDate)
+SET companyname = @keyword,
+    title = @title,
+    date = @pubDate,
+    description = @description,
+    link = @link;

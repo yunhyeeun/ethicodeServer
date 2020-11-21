@@ -47,10 +47,12 @@ def run():
     #init
     inputfilename = "companyList.csv"
     companyList = csv2list(inputfilename)
-    outputfilename = "news_search_result.csv"
-    keywordList = ["", " 기부", " 검찰", " 공정위", " 나눔", " 불매", " 윤리"]
+    outputfilename = "sample_result.csv"
+    # keywordList = ["", " 기부", " 검찰", " 공정위", " 나눔", " 불매", " 윤리"]
+    keywordList = [""]
+
     encode_type = "json"
-    max_display = 10
+    max_display = 1
     sort = "sim"
     start = 1
 
