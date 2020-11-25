@@ -1,7 +1,6 @@
 # ethicodeServer
 
 ## About Server
-<<<<<<< HEAD
 
 Server : oracle free instance   
 public ip : 193.122.105.82   
@@ -35,5 +34,4 @@ OUTPUT : JSONobject(Array [barcode, itemname, companyname])
 ## How to Use in Client
 HTTP URL : http://193.122.105.82/query.php   
 parameter : ?barcode=YOURBARCODENUMBER   
-  
->>>>>>> c7aabe342b18af5a65c6a7b966fd1904c5c93d3c
+
