@@ -1,7 +1,6 @@
 # ethicodeServer
 
 ## About Server
-<<<<<<< HEAD
 
 Server : oracle free instance   
 public ip : 193.122.105.82   
@@ -23,17 +22,34 @@ mysql password :
 | itemname    | varchar(100) | NO   |     | NULL    |       |
 | companyname | varchar(20)  | NO   |     | NULL    |       |   
 
+Database name : CS409DB   
+Table name : news   
+mysql username : cs409   
+mysql host : localhost   
+mysql password : 
+
+| Field       | Type         | Null | Key | Default | Extra               |
+|-------------|--------------|------|-----|---------|---------------------|
+| id          | int(11)      | NO   | PRI | NULL    | auto_increment      |
+| companyname | varchar(20)  | YES  |     | NULL    |                     |
+| keyword     | varchar(10)  | YES  |     | NULL    |                     |   
+| title       | varchar(100) | YES  |     | NULL    |                     |   
+| description | varchar(200) | YES  |     | NULL    |                     |   
+| originallink| varchar(300) | YES  |     | NULL    |                     |   
+| link        | varchar(300) | YES  |     | NULL    |                     |   
+| pubDate     | varchar(300) | YES  |     | NULL    |                     |   
+
 <br>   
 
 ## About PHP
 We just need query event.   
 METHOD : GET   
 INPUT : barcode   
-OUTPUT : JSONobject(Array [barcode, itemname, companyname])   
+OUTPUT : JSONobject({ itemname, companyname, news: Array({ title, date, description, link } ] }   
+
 <br>   
 
 ## How to Use in Client
 HTTP URL : http://193.122.105.82/query.php   
 parameter : ?barcode=YOURBARCODENUMBER   
-  
->>>>>>> c7aabe342b18af5a65c6a7b966fd1904c5c93d3c
+
