@@ -13,9 +13,11 @@ def csv2list(filename):
     file = open(filename, 'r')
     csvfile = csv.reader(file)
     result = []
-    for item in csvfile:
-        if (len(item) > 0):
-            result.append(item[0].strip())
+    for i, item in enumerate(csvfile):
+        if i == 0:
+            continue
+        if len(item) > 0 and len(item[0]) > 0:
+            result.append((item[0].strip(), item[1]))
     return result
 
 def call(search_word, keyword, encode_type, max_display, sort, start):
@@ -31,13 +33,14 @@ def clean_html(x):
     x = re.sub("<.*?>","",x)
     return x
 
-def data2csv(keyword, data, filename):
+def data2csv(company, keyword, data, filename):
     df = pd.DataFrame(data.json()['items'])
     if not df.empty:
+        df = df.reindex(columns=['id', 'companyname', 'keyword', 'title', 'description', 'originallink','link','pubDate'])
+        df['companyname'] = company
         df['keyword'] = keyword
         df['title'] = df['title'].apply(lambda x: clean_html(x))
         df['description'] = df['description'].apply(lambda x: clean_html(x))
-        df = df.reindex(columns=['keyword', 'title', 'description', 'originallink','link','pubDate'])
         if os.path.exists(filename):
             df.to_csv(filename, index=False, mode='a', encoding='utf-8-sig', header=False)
         else:
@@ -45,21 +48,25 @@ def data2csv(keyword, data, filename):
 
 def run():
     #init
-    inputfilename = "companyList.csv"
+    inputfilename = "preprocessed_companyList.csv"
     companyList = csv2list(inputfilename)
-    outputfilename = "sample_result.csv"
+    datadir="./output/"
+    outputfilename = datadir + "single_preprocessed_news_result.csv"
     # keywordList = ["", " 기부", " 검찰", " 공정위", " 나눔", " 불매", " 윤리"]
-    keywordList = [""]
+    # keywordList = [""]
 
     encode_type = "json"
     max_display = 1
     sort = "sim"
     start = 1
-
+    
     #api call
-    for search_word in companyList:
-        for keyword in keywordList:
-            data = call(search_word, keyword, encode_type, max_display, sort, start)
-            data2csv(f"{search_word}{keyword}", data, outputfilename) 
+    for row in companyList:
+        company = row[0]
+        group = row[1]
+        keyword = ""
+        # for keyword in keywordList:
+        data = call(company, keyword, encode_type, max_display, sort, start)
+        data2csv(company, keyword, data, outputfilename) 
 
 run()
