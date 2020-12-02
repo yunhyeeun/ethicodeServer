@@ -1,15 +1,33 @@
 # ethicodeServer
 
+## About News Crawler   
+
+NAVER news search API
+
+### Keyword-based Search   
+
+| Ethical standard            | Keyword                            |
+|-----------------------------|------------------------------------|
+| Environmental performance   | Eco-friendly production (친환경 생산) |
+| Corporate philanthropy      | Donation, sponsorship, sharing, volunteer activities, public benefit campaigns (기부, 후원, 나눔활동, 봉사활동, 공익캠페인) |
+| Non-discrimination related to human rights, Labor practices | Boss around, ethical management, discrimination and abhor (갑질, 윤리경영, 차별 혐오) |
+| Product liability           | FDA, hygiene management, HACCP (식약처, 위생관리 기준, 위생검사, HACCP) |
+| Etc                         | Unfair transaction, fair trade commission, prosecution, boycott (부당거래, 공정위, 검찰, 불매) |
+
+### Preprocessing   
+
+- 주가 관련 뉴스 삭제
+- 홍보 관련 뉴스 삭제
+- 동일 내용 뉴스 삭제
+
 ## About Server
 
 Server : oracle free instance   
-public ip : 193.122.105.82   
-=======
-oracle free instance   
 apache2 - php - mysql
 public ip : 193.122.105.82   
-<br>
-## About Database
+
+## About Database   
+
 Database name : CS489DB   
 Table name : item   
 mysql username : cs489   
@@ -45,11 +63,4 @@ mysql password :
 We just need query event.   
 METHOD : GET   
 INPUT : barcode   
-OUTPUT : JSONobject({ itemname, companyname, news: Array({ title, date, description, link } ] }   
-
-<br>   
-
-## How to Use in Client
-HTTP URL : http://193.122.105.82/query.php   
-parameter : ?barcode=YOURBARCODENUMBER   
-
+OUTPUT : JSONobject({ itemname, companyname, news: Array({ title, date, description, link } ] }    
