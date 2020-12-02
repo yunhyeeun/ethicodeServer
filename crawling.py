@@ -5,6 +5,7 @@ import pandas as pd
 import re
 import csv
 import os
+import preprocessing
 
 client_id = "7xT5apJ1MOfu4xp4LyfV"
 client_secret = "xXSwW40yhU"
@@ -34,39 +35,51 @@ def clean_html(x):
     return x
 
 def data2csv(company, keyword, data, filename):
-    df = pd.DataFrame(data.json()['items'])
-    if not df.empty:
-        df = df.reindex(columns=['id', 'companyname', 'keyword', 'title', 'description', 'originallink','link','pubDate'])
-        df['companyname'] = company
-        df['keyword'] = keyword
-        df['title'] = df['title'].apply(lambda x: clean_html(x))
-        df['description'] = df['description'].apply(lambda x: clean_html(x))
-        if os.path.exists(filename):
-            df.to_csv(filename, index=False, mode='a', encoding='utf-8-sig', header=False)
-        else:
-            df.to_csv(filename, index=False, mode='w', encoding='utf-8-sig')
+    try:
+        df = pd.DataFrame(data.json()['items'])
+        if not df.empty:
+            df = df.reindex(columns=['id', 'companyname', 'keyword', 'title', 'description', 'originallink','link','pubDate'])
+            df['companyname'] = company
+            df['keyword'] = keyword
+            df['title'] = df['title'].apply(lambda x: clean_html(x))
+            df['description'] = df['description'].apply(lambda x: clean_html(x))
+            if (df.shape[0] > 1):
+                titles = df.loc[:, 'title']
+                check = preprocessing.cos_similarity(titles)
+                if (len(check) == 1 and check[0] > 20):
+                    df = df.drop(df.index[1])
+                elif (len(check) > 1):
+                    threshold = [check.index(x) for x in check if x > 20]
+                    if len(threshold) > 1:
+                        df = df.drop(df.index[1, 2])
+                    elif len(threshold) == 1:
+                        df = df.drop(df.index[min(threshold[0] + 1, 2)])
+            if os.path.exists(filename):
+                df.to_csv(filename, index=False, mode='a', encoding='utf-8-sig', header=False)
+            else:
+                df.to_csv(filename, index=False, mode='w', encoding='utf-8-sig')
+    except:
+        print ("error")
 
 def run():
     #init
     inputfilename = "preprocessed_companyList.csv"
     companyList = csv2list(inputfilename)
-    datadir="./output/"
-    outputfilename = datadir + "single_preprocessed_news_result.csv"
-    # keywordList = ["", " 기부", " 검찰", " 공정위", " 나눔", " 불매", " 윤리"]
-    # keywordList = [""]
+    datadir="./triple_output/"
+    keywordList = ["", "윤리경영", "친환경 생산", "검찰", "공정위", "기부 나눔활동", "공익캠페인", "봉사활동", "불매", "갑질", "위생검사"]
 
     encode_type = "json"
-    max_display = 1
+    max_display = 3
     sort = "sim"
     start = 1
-    
-    #api call
-    for row in companyList:
-        company = row[0]
-        group = row[1]
-        keyword = ""
-        # for keyword in keywordList:
-        data = call(company, keyword, encode_type, max_display, sort, start)
-        data2csv(company, keyword, data, outputfilename) 
+    for keyword in keywordList:
+        outputfilename = "preprocessed_news_result_" + keyword + ".csv"
+        #api call
+        for row in companyList:
+            company = row[0]
+            group = row[1]
+            # for keyword in keywordList:
+            data = call(company, keyword, encode_type, max_display, sort, start)
+            data2csv(company, keyword, data, outputfilename) 
 
 run()
