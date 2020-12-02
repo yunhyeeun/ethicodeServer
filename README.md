@@ -10,9 +10,9 @@ apache2 - php - mysql
 public ip : 193.122.105.82   
 <br>
 ## About Database
-Database name : CS409DB   
+Database name : CS489DB   
 Table name : item   
-mysql username : cs409   
+mysql username : cs489   
 mysql host : localhost   
 mysql password : 
 
@@ -22,15 +22,15 @@ mysql password :
 | itemname    | varchar(100) | NO   |     | NULL    |       |
 | companyname | varchar(20)  | NO   |     | NULL    |       |   
 
-Database name : CS409DB   
+Database name : CS489DB   
 Table name : news   
-mysql username : cs409   
+mysql username : cs489   
 mysql host : localhost   
 mysql password : 
 
 | Field       | Type         | Null | Key | Default | Extra               |
 |-------------|--------------|------|-----|---------|---------------------|
-| id          | int(11)      | NO   | PRI | NULL    | auto_increment      |
+| id          | int(11)      | NO   | PRI | NULL    |                     |
 | companyname | varchar(20)  | YES  |     | NULL    |                     |
 | keyword     | varchar(10)  | YES  |     | NULL    |                     |   
 | title       | varchar(100) | YES  |     | NULL    |                     |   
